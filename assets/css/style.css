@@ -678,7 +678,9 @@ button:focus-visible {
 .sb-live-counter {
   position: relative;
   z-index: 1;
+  padding-top: 28px;
   padding-bottom: 52px;
+  text-align: center;
   animation: liveIn 0.7s ease 1s both;
 }
 @keyframes liveIn {

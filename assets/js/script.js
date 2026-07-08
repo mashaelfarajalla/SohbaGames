@@ -473,7 +473,7 @@
   }
 
   function startLiveCounter() {
-    animateLiveCount(10842, 12486, 2400, () => {
+    animateLiveCount(10842, 12605, 2400, () => {
       liveTickInterval = setInterval(() => {
         state.liveCount += Math.floor(Math.random() * 3 + 1);
         updateLiveCountText();
