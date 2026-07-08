@@ -268,7 +268,6 @@ button:focus-visible {
 /* ═══ HERO ═══ */
 .sb-hero {
   position: relative;
-  min-height: 100vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -340,7 +339,7 @@ button:focus-visible {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  padding: 140px 40px 64px;
+  padding: 140px 40px 65px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -385,7 +384,7 @@ button:focus-visible {
   gap: 14px;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 56px;
+  margin-bottom: 40px;
 }
 .sb-hero-cta-btn {
   padding: 15px 30px;
@@ -416,7 +415,7 @@ button:focus-visible {
 /* ═══ INVITE / REFERRAL / DOWNLOAD SECTION ═══ */
 .sb-invite-section {
   position: relative;
-  padding: 72px 40px;
+  padding: 24px 40px;
 }
 .sb-invite-section-inner {
   width: 100%;
@@ -1338,7 +1337,7 @@ button:focus-visible {
 /* ═══ Responsive ═══ */
 @media (max-width: 900px) {
   .sb-hero-content {
-    padding: 120px 32px 56px !important;
+    padding: 110px 32px 32px !important;
   }
   .about-grid {
     grid-template-columns: 1fr !important;
