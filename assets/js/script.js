@@ -7,8 +7,10 @@
     playfabTitleId: "",
   };
 
+  const { setStoredLang, getInitialLang, syncInternalLinks } = window.SohbaCommon;
+
   const state = {
-    lang: "ar",
+    lang: getInitialLang(),
     copied: false,
     referralCode: "5BKCKW",
     inviterName: null,
@@ -260,9 +262,19 @@
         ? "لا تفوّت هديتك الترحيبية — شارك رابط الدعوة عند التسجيل في التطبيق"
         : "Don't miss your welcome gift — share the referral link when signing up",
 
+      footerSlogan: isAr
+        ? "أول منصة عربية للّعب والتواصل بين اللاعبين"
+        : "The First Arab Gaming & Community Platform",
+      footerColPlatformTitle: isAr ? "المنصة" : "Platform",
+      footerAbout: isAr ? "من نحن" : "About Us",
+      footerBenefits: isAr ? "المميزات" : "Features",
+      footerGames: isAr ? "الألعاب" : "Games",
+      footerDownload: isAr ? "التحميل" : "Download",
+      footerColLegalTitle: isAr ? "قانوني" : "Legal",
       footerPrivacy: isAr ? "سياسة الخصوصية" : "Privacy Policy",
+      footerDataDeletion: isAr ? "حذف البيانات" : "Data Deletion",
       footerTerms: isAr ? "شروط الاستخدام" : "Terms of Use",
-      footerContact: isAr ? "اتصل بنا" : "Contact Us",
+      footerColContactTitle: isAr ? "تواصل معنا" : "Contact Us",
       footerRights: isAr
         ? "© 2026 صحبة غيمز. جميع الحقوق محفوظة."
         : "© 2026 Sohba Games. All rights reserved.",
@@ -413,10 +425,24 @@
     document.getElementById("ctaTitle").textContent = t.ctaTitle;
     document.getElementById("ctaDesc").textContent = t.ctaDesc;
 
+    document.getElementById("footerSlogan").textContent = t.footerSlogan;
+    document.getElementById("footerColPlatformTitle").textContent =
+      t.footerColPlatformTitle;
+    document.getElementById("footerAbout").textContent = t.footerAbout;
+    document.getElementById("footerBenefits").textContent = t.footerBenefits;
+    document.getElementById("footerGames").textContent = t.footerGames;
+    document.getElementById("footerDownload").textContent = t.footerDownload;
+    document.getElementById("footerColLegalTitle").textContent =
+      t.footerColLegalTitle;
     document.getElementById("footerPrivacy").textContent = t.footerPrivacy;
+    document.getElementById("footerDataDeletion").textContent =
+      t.footerDataDeletion;
     document.getElementById("footerTerms").textContent = t.footerTerms;
-    document.getElementById("footerContact").textContent = t.footerContact;
+    document.getElementById("footerColContactTitle").textContent =
+      t.footerColContactTitle;
     document.getElementById("footerRights").textContent = t.footerRights;
+
+    syncInternalLinks(state.lang);
   }
 
   function animateStat(key, target, duration, elId, formatter) {
@@ -625,16 +651,24 @@
 
     if (code) {
       code = code.toUpperCase();
-      localStorage.setItem("sohba_referral_code", code);
-      localStorage.setItem("sohba_referral_ts", String(Date.now()));
       attribution = {
         code,
         capturedAt: Date.now(),
         ...(hasIncomingUtm ? incomingUtm : attribution),
       };
-      localStorage.setItem("sohba_attribution", JSON.stringify(attribution));
+      try {
+        localStorage.setItem("sohba_referral_code", code);
+        localStorage.setItem("sohba_referral_ts", String(Date.now()));
+        localStorage.setItem("sohba_attribution", JSON.stringify(attribution));
+      } catch (e) {
+        /* storage unavailable */
+      }
     } else {
-      code = localStorage.getItem("sohba_referral_code") || "5BKCKW";
+      try {
+        code = localStorage.getItem("sohba_referral_code") || "5BKCKW";
+      } catch (e) {
+        code = "5BKCKW";
+      }
     }
 
     const alpha = code.replace(/[^a-zA-Z]/g, "");
@@ -652,6 +686,7 @@
   function bindEvents() {
     document.getElementById("langToggleBtn").addEventListener("click", () => {
       state.lang = state.lang === "ar" ? "en" : "ar";
+      setStoredLang(state.lang);
       render();
     });
     document.getElementById("copyCodeBtn").addEventListener("click", copyCode);
